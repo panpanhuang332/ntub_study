@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>數位假評的期望扭曲效應｜學習導覽網站</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700&family=Noto+Sans+TC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0d1b2a;
+  --navy2: #1b2d3e;
+  --teal: #0ea5e9;
+  --teal-light: #38bdf8;
+  --gold: #f59e0b;
+  --red: #ef4444;
+  --green: #22c55e;
+  --white: #f8fafc;
+  --gray: #94a3b8;
+  --gray-light: #e2e8f0;
+  --card-bg: #ffffff;
+  --text: #1e293b;
+  --text-light: #64748b;
+  --border: #e2e8f0;
+  --sidebar-w: 260px;
+  --serif: 'Noto Serif TC', serif;
+  --sans: 'Noto Sans TC', sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); background: #f1f5f9; color: var(--text); }
+
+/* ── HEADER ── */
+.site-header {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 60%, #1e3a5f 100%);
+  color: white; padding: 40px 32px 32px;
+  position: relative; overflow: hidden;
+}
+.site-header::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.header-content { position: relative; max-width: 900px; }
+.header-tag {
+  display: inline-block; background: var(--teal); color: white;
+  font-size: 11px; font-weight: 700; letter-spacing: 2px;
+  padding: 4px 12px; border-radius: 20px; margin-bottom: 16px;
+  text-transform: uppercase;
+}
+.site-header h1 {
+  font-family: var(--serif); font-size: 26px; font-weight: 700;
+  line-height: 1.4; margin-bottom: 8px;
+}
+.site-header .subtitle {
+  font-size: 13px; color: #94a3b8; margin-bottom: 20px;
+}
+.header-meta {
+  display: flex; gap: 20px; flex-wrap: wrap;
+}
+.header-meta span {
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+  padding: 5px 14px; border-radius: 6px; font-size: 12px; color: #cbd5e1;
+}
+
+/* ── LAYOUT ── */
+.layout { display: flex; min-height: 100vh; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: var(--sidebar-w); background: var(--navy);
+  position: sticky; top: 0; height: 100vh; overflow-y: auto;
+  flex-shrink: 0; padding: 20px 0;
+}
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+.sidebar-section-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 2px;
+  color: #475569; text-transform: uppercase;
+  padding: 16px 20px 6px; margin-top: 8px;
+}
+.sidebar a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 20px; color: #94a3b8; text-decoration: none;
+  font-size: 13px; transition: all 0.2s;
+  border-left: 3px solid transparent;
+}
+.sidebar a:hover, .sidebar a.active {
+  color: white; background: rgba(255,255,255,0.05);
+  border-left-color: var(--teal);
+}
+.sidebar a .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: currentColor; flex-shrink: 0;
+}
+
+/* ── MAIN ── */
+.main { flex: 1; padding: 32px; max-width: calc(100% - var(--sidebar-w)); }
+
+/* ── SECTION ── */
+.section { margin-bottom: 48px; }
+.section-header {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 24px; padding-bottom: 12px;
+  border-bottom: 2px solid var(--border);
+}
+.section-icon {
+  width: 36px; height: 36px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; flex-shrink: 0;
+}
+.section-title { font-family: var(--serif); font-size: 20px; font-weight: 700; }
+.section-subtitle { font-size: 13px; color: var(--text-light); margin-top: 2px; }
+
+/* ── THEORY CARDS ── */
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; }
+.card {
+  background: var(--card-bg); border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px; transition: all 0.2s;
+  cursor: default;
+}
+.card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.08); transform: translateY(-1px); }
+.card-tag {
+  display: inline-block; font-size: 10px; font-weight: 700;
+  letter-spacing: 1.5px; text-transform: uppercase;
+  padding: 3px 10px; border-radius: 4px; margin-bottom: 10px;
+}
+.card-title { font-family: var(--serif); font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+.card-subtitle { font-size: 12px; color: var(--text-light); margin-bottom: 10px; }
+.card-body { font-size: 13px; line-height: 1.7; color: #334155; }
+.card-formula {
+  background: #f8fafc; border: 1px solid var(--border);
+  border-radius: 6px; padding: 10px 14px; margin: 10px 0;
+  font-family: var(--mono); font-size: 13px; color: var(--navy);
+}
+.card-key {
+  display: inline-block; background: #eff6ff; color: #1d4ed8;
+  border: 1px solid #bfdbfe; padding: 2px 8px;
+  border-radius: 4px; font-size: 12px; margin: 2px;
+}
+.card-warning {
+  background: #fef2f2; border-left: 3px solid var(--red);
+  border-radius: 0 6px 6px 0; padding: 8px 12px;
+  font-size: 12px; color: #991b1b; margin-top: 10px;
+}
+.card-tip {
+  background: #f0fdf4; border-left: 3px solid var(--green);
+  border-radius: 0 6px 6px 0; padding: 8px 12px;
+  font-size: 12px; color: #166534; margin-top: 10px;
+}
+.card-note {
+  background: #fffbeb; border-left: 3px solid var(--gold);
+  border-radius: 0 6px 6px 0; padding: 8px 12px;
+  font-size: 12px; color: #92400e; margin-top: 10px;
+}
+
+/* tag colors */
+.tag-blue { background: #dbeafe; color: #1e40af; }
+.tag-red { background: #fee2e2; color: #991b1b; }
+.tag-green { background: #dcfce7; color: #166534; }
+.tag-gold { background: #fef3c7; color: #92400e; }
+.tag-purple { background: #f3e8ff; color: #6b21a8; }
+.tag-teal { background: #ccfbf1; color: #0f766e; }
+
+/* ── CONNECTION TABLE ── */
+.conn-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.conn-table th {
+  background: var(--navy); color: white; padding: 10px 14px;
+  text-align: left; font-weight: 600;
+}
+.conn-table td {
+  padding: 10px 14px; border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.conn-table tr:hover td { background: #f8fafc; }
+
+/* ── FORMULA BOX ── */
+.formula-box {
+  background: var(--navy); color: white;
+  border-radius: 10px; padding: 20px 24px; margin: 16px 0;
+}
+.formula-box .label { font-size: 11px; color: var(--teal-light); letter-spacing: 1px; margin-bottom: 8px; }
+.formula-box .formula { font-family: var(--mono); font-size: 18px; font-weight: 600; }
+.formula-box .note { font-size: 12px; color: #94a3b8; margin-top: 8px; }
+
+/* ── QUIZ ── */
+.quiz-section { margin-bottom: 48px; }
+.quiz-intro {
+  background: linear-gradient(135deg, var(--navy), #1e3a5f);
+  color: white; border-radius: 12px; padding: 24px;
+  margin-bottom: 24px;
+}
+.quiz-intro h2 { font-family: var(--serif); font-size: 20px; margin-bottom: 8px; }
+.quiz-intro p { font-size: 13px; color: #94a3b8; }
+.quiz-stats {
+  display: flex; gap: 16px; margin-top: 16px; flex-wrap: wrap;
+}
+.quiz-stat {
+  background: rgba(255,255,255,0.08); border-radius: 8px;
+  padding: 8px 16px; text-align: center;
+}
+.quiz-stat .num { font-size: 22px; font-weight: 700; color: var(--teal-light); }
+.quiz-stat .lbl { font-size: 11px; color: #94a3b8; }
+
+.quiz-card {
+  background: white; border: 1px solid var(--border);
+  border-radius: 12px; padding: 24px; margin-bottom: 16px;
+}
+.quiz-card .q-num {
+  font-size: 11px; font-weight: 700; color: var(--teal);
+  letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px;
+}
+.quiz-card .q-text {
+  font-size: 15px; font-weight: 600; margin-bottom: 16px; line-height: 1.5;
+}
+.quiz-options { list-style: none; }
+.quiz-options li {
+  margin-bottom: 8px;
+}
+.quiz-options label {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 14px; border: 1.5px solid var(--border);
+  border-radius: 8px; cursor: pointer; transition: all 0.15s;
+  font-size: 13px; line-height: 1.5;
+}
+.quiz-options label:hover { border-color: var(--teal); background: #f0f9ff; }
+.quiz-options input[type="radio"] { margin-top: 2px; accent-color: var(--teal); flex-shrink: 0; }
+.quiz-options label.correct { border-color: var(--green); background: #f0fdf4; color: #166534; }
+.quiz-options label.wrong { border-color: var(--red); background: #fef2f2; color: #991b1b; }
+
+.btn-check {
+  background: var(--teal); color: white; border: none;
+  padding: 10px 20px; border-radius: 8px; cursor: pointer;
+  font-size: 13px; font-weight: 600; margin-top: 12px;
+  transition: background 0.2s;
+}
+.btn-check:hover { background: #0284c7; }
+.quiz-feedback {
+  display: none; margin-top: 12px; padding: 12px 16px;
+  border-radius: 8px; font-size: 13px; line-height: 1.6;
+}
+.quiz-feedback.show { display: block; }
+.quiz-feedback.correct { background: #f0fdf4; border: 1px solid #86efac; color: #166534; }
+.quiz-feedback.wrong { background: #fef2f2; border: 1px solid #fca5a5; color: #991b1b; }
+
+/* Essay */
+.essay-card {
+  background: white; border: 1px solid var(--border);
+  border-radius: 12px; padding: 24px; margin-bottom: 16px;
+}
+.essay-card .q-num { color: var(--gold); }
+.btn-reveal {
+  background: #1e293b; color: white; border: none;
+  padding: 10px 20px; border-radius: 8px; cursor: pointer;
+  font-size: 13px; font-weight: 600; margin-top: 16px;
+  transition: background 0.2s;
+}
+.btn-reveal:hover { background: #334155; }
+.essay-answer {
+  display: none; margin-top: 16px;
+  background: #fffbeb; border: 1px solid #fde68a;
+  border-radius: 8px; padding: 16px;
+}
+.essay-answer.show { display: block; }
+.essay-answer h4 { color: #92400e; font-size: 13px; margin-bottom: 10px; }
+.essay-answer p, .essay-answer li {
+  font-size: 13px; line-height: 1.8; color: #451a03;
+}
+.essay-answer ul { padding-left: 16px; }
+.essay-answer li { margin-bottom: 6px; }
+
+/* ── GLOSSARY ── */
+.glossary-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+.glossary-item {
+  background: white; border: 1px solid var(--border);
+  border-radius: 10px; padding: 14px 16px;
+}
+.glossary-term {
+  font-family: var(--mono); font-size: 13px; font-weight: 600;
+  color: var(--navy); margin-bottom: 4px;
+}
+.glossary-cn { font-size: 13px; font-weight: 600; color: #334155; }
+.glossary-def { font-size: 12px; color: var(--text-light); margin-top: 4px; line-height: 1.6; }
+.glossary-paper { font-size: 11px; color: var(--teal); margin-top: 6px; }
+
+/* ── PROGRESS BAR ── */
+.progress-container {
+  background: white; border: 1px solid var(--border);
+  border-radius: 12px; padding: 20px; margin-bottom: 24px;
+}
+.progress-title { font-size: 14px; font-weight: 600; margin-bottom: 12px; }
+.progress-bar-wrap { background: #f1f5f9; border-radius: 8px; overflow: hidden; height: 8px; }
+.progress-bar { height: 100%; background: linear-gradient(90deg, var(--teal), var(--teal-light)); border-radius: 8px; transition: width 0.3s; }
+.score-display { font-size: 24px; font-weight: 700; color: var(--teal); margin-top: 8px; }
+
+/* ── RESPONSIVE ── */
+@media(max-width: 768px) {
+  .sidebar { display: none; }
+  .main { max-width: 100%; }
+  .card-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="site-header">
+  <div class="header-content">
+    <div class="header-tag">學術論文導讀</div>
+    <h1>數位假評的期望扭曲效應：<br>基於 MOT 理論的服務品質缺口研究</h1>
+    <div class="subtitle">The Expectation Distortion Effect of Fake Online Reviews: A Service Quality Gap Study Based on MOT Theory</div>
+    <div class="header-meta">
+      <span>📚 黃國津・建國科技大學</span>
+      <span>🎯 北商大 2026 研討會</span>
+      <span>🏷️ 行銷與組織行為研究</span>
+    </div>
+  </div>
+</div>
+
+<div class="layout">
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-section-label">核心理論</div>
+  <a href="#sec-background"><span class="dot"></span>研究背景</a>
+  <a href="#sec-pzb"><span class="dot"></span>PZB 服務品質缺口模型</a>
+  <a href="#sec-gapd"><span class="dot"></span>Gap D：新缺口理論</a>
+  <a href="#sec-edp"><span class="dot"></span>期望扭曲悖論 EDP</a>
+  <a href="#sec-mot"><span class="dot"></span>MOT 真實瞬間理論</a>
+  <div class="sidebar-section-label">支撐理論</div>
+  <a href="#sec-akerlof"><span class="dot"></span>Akerlof 市場失靈</a>
+  <a href="#sec-elm"><span class="dot"></span>ELM 精細可能性模型</a>
+  <a href="#sec-behav"><span class="dot"></span>行為經濟學</a>
+  <a href="#sec-drucker"><span class="dot"></span>Drucker & Porter</a>
+  <div class="sidebar-section-label">工具與方法</div>
+  <a href="#sec-tool"><span class="dot"></span>MOT Calibrator 工具</a>
+  <a href="#sec-hypothesis"><span class="dot"></span>研究假說</a>
+  <a href="#sec-method"><span class="dot"></span>研究方法</a>
+  <a href="#sec-future"><span class="dot"></span>三部曲延伸架構</a>
+  <div class="sidebar-section-label">複習與測驗</div>
+  <a href="#sec-glossary"><span class="dot"></span>專業詞彙表</a>
+  <a href="#sec-quiz-mc"><span class="dot"></span>選擇題測驗</a>
+  <a href="#sec-quiz-essay"><span class="dot"></span>申論題測驗</a>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- ══════ 1. 研究背景 ══════ -->
+<div class="section" id="sec-background">
+  <div class="section-header">
+    <div class="section-icon" style="background:#dbeafe;">🌐</div>
+    <div>
+      <div class="section-title">研究背景：為什麼要研究假評？</div>
+      <div class="section-subtitle">ZMOT 時代的資訊污染問題</div>
+    </div>
+  </div>
+  <div class="card-grid">
+    <div class="card">
+      <span class="card-tag tag-blue">ZMOT 概念</span>
+      <div class="card-title">第零關鍵時刻（Zero Moment of Truth）</div>
+      <div class="card-subtitle">Google, Lecinski, 2011</div>
+      <div class="card-body">消費者在進入任何實體或線上商店之前，一定會先上網搜尋、看評論、做功課。這個「購買前的網路搜尋決策時刻」被 Google 命名為 ZMOT（第零關鍵時刻）。<br><br>傳統行銷的「第一關鍵時刻」是貨架前，ZMOT 把決策時刻往前推到了螢幕前。</div>
+      <div class="card-tip">✦ 93% 的消費者在購買前閱讀線上評論；71% 以 Google 評論作為起點（Capital One, 2026）</div>
+    </div>
+    <div class="card">
+      <span class="card-tag tag-red">核心問題</span>
+      <div class="card-title">假評（Fake Reviews）的系統性滲透</div>
+      <div class="card-subtitle">問題的規模與嚴重性</div>
+      <div class="card-body">假評指的是非真實消費者所撰寫、以操弄消費者決策為目的的虛假評論。分為兩種方向：<br><br>
+      <span class="card-key">正向假評</span>：業者花錢刷好評，人為拉高星等<br>
+      <span class="card-key">負向假評</span>：競業發動差評攻擊，損害對手口碑<br><br>
+      TripAdvisor 在 2022 年偵測到超過 130 萬則假評（Salminen et al., 2022）。</div>
+      <div class="card-warning">⚠ 現有研究的盲點：即便假評被事後刪除，消費者帶著扭曲後的期望值進場，品質缺口仍難以逆轉。</div>
+    </div>
+    <div class="card">
+      <span class="card-tag tag-gold">研究缺口</span>
+      <div class="card-title">現有假評偵測研究（FRD）的兩大缺口</div>
+      <div class="card-subtitle">本研究存在的必要性</div>
+      <div class="card-body">目前學術界的假評研究主要分三條技術路線：<br><br>
+      <span class="card-key">Transformer 架構</span> BERT / RoBERTa 文字分類<br>
+      <span class="card-key">圖神經網路</span> 挖掘評論者社群關係<br>
+      <span class="card-key">心理語言學</span> 詐騙語言的認知印記<br><br>
+      但兩個核心缺口未被填補：<br>
+      ① 技術偵測缺乏服務管理理論對話<br>
+      ② 只關注「刪假評」，未關注「校準消費者期望」</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ 2. PZB ══════ -->
+<div class="section" id="sec-pzb">
+  <div class="section-header">
+    <div class="section-icon" style="background:#dcfce7;">📐</div>
+    <div>
+      <div class="section-title">PZB 服務品質缺口模型</div>
+      <div class="section-subtitle">Parasuraman, Zeithaml & Berry, 1985 ｜本研究的核心理論基礎</div>
+    </div>
+  </div>
+  <div class="formula-box">
+    <div class="label">核心公式</div>
+    <div class="formula">SQ = P − E</div>
+    <div class="note">SQ（服務品質）= P（感知績效 Perceived Performance）− E（期望值 Expectation）<br>品質不是由服務方單方面決定，而是由顧客的「主觀落差感受」定義。</div>
+  </div>
+  <div class="card-grid">
+    <div class="card">
+      <span class="card-tag tag-green">RATER 五維度</span>
+      <div class="card-title">PZB 服務品質的五個面向</div>
+      <div class="card-body">
+        <strong>R</strong>eliability（可靠性）：準時履行服務承諾<br>
+        <strong>A</strong>ssurance（保證性）：員工知識與禮貌激發信任<br>
+        <strong>T</strong>angibles（有形性）：實體設施、設備、員工外觀<br>
+        <strong>E</strong>mpathy（同理心）：個別化的面對面關懷<br>
+        <strong>R</strong>esponsiveness（回應性）：即時回應顧客需求
+      </div>
+      <div class="card-note">💡 在純數位情境中，這五個維度的感知媒介已從「實體接觸」全面轉化為「數位評論」</div>
+    </div>
+    <div class="card">
+      <span class="card-tag tag-blue">五大缺口</span>
+      <div class="card-title">PZB 原始五個缺口（Gap 1-5）</div>
+      <div class="card-body">
+        <strong>Gap 1</strong>：業者對顧客期望的認知缺口<br>
+        <strong>Gap 2</strong>：認知轉換為服務規格的缺口<br>
+        <strong>Gap 3</strong>：服務規格與實際交付的缺口<br>
+        <strong>Gap 4</strong>：外部溝通（廣告）與服務交付的缺口<br>
+        <strong>Gap 5</strong>：<span style="color:var(--red);font-weight:600;">顧客期望與感知績效的落差（核心）</span>
+      </div>
+      <div class="card-tip">✦ 期望值受：口碑傳播、個人需求、過去經驗、外部溝通 四個來源影響</div>
+    </div>
+    <div class="card">
+      <span class="card-tag tag-red">時代盲點</span>
+      <div class="card-title">PZB 模型的 1985 年假設</div>
+      <div class="card-body">PZB 建立時預設了一個前提：「口碑相傳」是真實消費者的自然傳播，不會遭到系統性污染。<br><br>這個假設在 1985 年成立，但在數位假評氾濫的今天已不再成立。<br><br>本研究正是針對這個時代性盲點提出 Gap D。</div>
+      <div class="card-formula">SQ = P − (E_authentic + Gap D)</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ 3. GAP D ══════ -->
+<div class="section" id="sec-gapd">
+  <div class="section-header">
+    <div class="section-icon" style="background:#fee2e2;">🆕</div>
+    <div>
+      <div class="section-title">Gap D：數位資訊污染缺口</div>
+      <div class="section-subtitle">本研究的核心理論貢獻 ｜PZB 的數位時代延伸</div>
+    </div>
+  </div>
+  <div class="formula-box">
+    <div class="label">Gap D 正式定義</div>
+    <div class="formula">Gap D = E_polluted − E_authentic</div>
+    <div class="note">
+      E_polluted：被假評污染後的消費者期望值<br>
+      E_authentic：未受任何口碑影響的真實期望值（基準）<br><br>
+      Gap 5（修正版）= (E_authentic + Gap D) − P
+    </div>
+  </div>
+  <div class="card-grid">
+    <div class="card">
+      <span class="card-tag tag-red">上行扭曲</span>
+      <div class="card-title">Gap D > 0（正向假評）</div>
+      <div class="card-body">正向假評人為拉高期望，Gap D 為正值，Gap 5 等幅擴大。<br><br>
+      <strong>數值範例：</strong><br>
+      某餐廳真實水準 P = 3分<br>
+      E_authentic = 3分（無假評時）<br>
+      正向假評後：E_polluted = 7分<br>
+      → Gap D = +4，Gap 5 = +4<br><br>
+      消費者帶著 7 分的期望去體驗 3 分的餐廳，<strong>嚴重失落</strong>。</div>
+    </div>
+    <div class="card">
+      <span class="card-tag tag-blue">下行扭曲</span>
+      <div class="card-title">Gap D < 0（負向假評）</div>
+      <div class="card-body">負向假評人為壓低期望，Gap D 為負值，Gap 5 縮小甚至轉正。<br><br>
+      <strong>數值範例：</strong><br>
+      競業差評後：E_polluted = 1分<br>
+      → Gap D = −2，Gap 5 = −2<br><br>
+      消費者<strong>意外滿意</strong>，但品牌已因差評流失大量潛在顧客，長期受害。</div>
+    </div>
+    <div class="card">
+      <span class="card-tag tag-purple">VS Gap 4</span>
+      <div class="card-title">Gap D ≠ Gap 4 的三個關鍵差異</div>
+      <div class="card-body">
+        <strong>① 資訊問責性（Drucker, 1993）</strong><br>
+        Gap 4：業者廣告不實，有法律責任<br>
+        Gap D：匿名第三方，三方責任模糊，無問責<br><br>
+        <strong>② 信號可信度（Porter, 1980）</strong><br>
+        Gap 4：消費者有「勸說知識」，主動折扣廣告<br>
+        Gap D：偽裝成中立口碑，繞過消費者防禦<br><br>
+        <strong>③ 市場失靈（Akerlof, 1970）</strong><br>
+        Gap 4：不造成系統性市場失靈<br>
+        Gap D：誠實業者被假評業者系統性驅逐
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ 4. EDP ══════ -->
+<div class="section" id="sec-edp">
+  <div class="section-header">
+    <div class="section-icon" style="background:#fef3c7;">⚡</div>
+    <div>
+      <div class="section-title">期望扭曲悖論（EDP）</div>
+      <div class="section-subtitle">Expectation Distortion Paradox ｜本研究命名的新概念</div>
+    </div>
+  </div>
+  <div class="card-grid">
+    <div class="card">
+      <span class="card-tag tag-gold">核心命題</span>
+      <div class="card-title">EDP 的定義</div>
+      <div class="card-body">假評以兩種<strong>截然相反</strong>的方向扭曲消費者購前期望，進而對 Gap 5 產生對稱性影響。<br><br>「悖論（Paradox）」在於：<br>
+      同樣是假評，卻可以製造完全相反的消費體驗——一個讓消費者大失所望，另一個讓消費者意外驚喜，但後者其實對品牌傷害更深（流失潛在顧客）。</div>
+    </div>
+    <div class="card">
+      <span class="card-tag tag-teal">ZoT 連結</span>
+      <div class="card-title">容忍區間壓縮效應（H2c）</div>
+      <div class="card-subtitle">Zeithaml, Berry & Parasuraman, 1993</div>
+      <div class="card-body"><strong>容忍區間（Zone of Tolerance）</strong>：消費者能接受的服務品質範圍，介於「理想服務」與「充分服務」之間。<br><br>
+      本研究的 H2c 假說：大量一致的假評會壓縮容忍區間——消費者因為看到太多一致的好評，不確定性降低，對品質的要求反而更精準嚴苛，一旦低於期望，失落感<strong>倍增</strong>。</div>
+      <div class="card-formula">假評雙重傷害：① 拉高期望均值 + ② 壓縮容忍區間寬度 → 失落感 × 2</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ 5. MOT ══════ -->
+<div class="section" id="sec-mot">
+  <div class="section-header">
+    <div class="section-icon" style="background:#f3e8ff;">✨</div>
+    <div>
+      <div class="section-title">MOT 真實瞬間理論</div>
+      <div class="section-subtitle">Moments of Truth ｜Jan Carlzon, 1987</div>
+    </div>
+  </div>
+  <div class="card-grid">
+    <div class="card">
+      <span class="card-tag tag-purple">MOT 理論</span>
+      <div class="card-title">什麼是「真實瞬間」？</div>
+      <div class="card-body">顧客對服務品質的判斷，發生在每一個<strong>具體的服務接觸瞬間</strong>——叫「真實瞬間（Moment of Truth）」。<br><br>這些瞬間包含：<br>
+      <span class="card-key">人員互動</span>：服務員的名字、主動行為<br>
+      <span class="card-key">感官體驗</span>：味道、觸感、視覺<br>
+      <span class="card-key">時空細節</span>：等待時間、座位位置<br>
+      <span class="card-key">情節轉折</span>：點錯菜立刻更換</div>
+    </div>
+    <div class="card">
+      <span class="card-tag tag-red">核心洞見</span>
+      <div class="card-title">MOT 如何辨別假評？</div>
+      <div class="card-body"><strong>真實體驗者</strong>的評論必然包含 MOT 接觸點的具體描述，因為他們親身經歷了這些瞬間。<br><br><strong>假評者</strong>因未曾親身體驗，只能堆疊通用情緒標籤：「超好吃！大推！CP值高！」這類評論毫無 MOT 語意細節。<br><br>
+      這個理論給了我們一個「辨假公式」：<span style="color:var(--red);font-weight:600;">缺乏具體接觸點描述 ≈ 假評信號</span></div>
+      <div class="card-note">📌 此為「必要條件近似」而非充分條件——AI 生成假評已可模擬具體性，需要 LLM 第四層補充</div>
+    </div>
+    <div class="card">
+      <span class="card-tag tag-blue">加權設計</span>
+      <div class="card-title">四類接觸點語言印記與加權</div>
+      <div class="card-body">
+        <div class="card-formula">人員互動詞 × 1.5（最高）</div>
+        <div class="card-formula">感官描述詞 × 1.3</div>
+        <div class="card-formula">時空細節詞 × 1.2</div>
+        <div class="card-formula">產品具體詞 × 1.0</div>
+        <div class="card-formula">負面情節     × 2.0（特殊加成）</div>
+        真實評論含負面情節（「湯頭偏鹹」）反映情感複雜性，假評通常全正面。
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ 6. AKERLOF ══════ -->
+<div class="section" id="sec-akerlof">
+  <div class="section-header">
+    <div class="section-icon" style="background:#fee2e2;">🍋</div>
+    <div>
+      <div class="section-title">Akerlof 市場失靈理論</div>
+      <div class="section-subtitle">市場檸檬理論（The Market for Lemons）｜1970 ｜諾貝爾經濟學獎</div>
+    </div>
+  </div>
+  <div class="card-grid">
+    <div class="card">
+      <span class="card-tag tag-red">理論核心</span>
+      <div class="card-title">「檸檬」與資訊不對稱</div>
+      <div class="card-body">Akerlof 用二手車市場說明：當買方在購買前無法辨別車子品質（資訊不對稱），「劣質車（檸檬）」會系統性地驅逐「優質車」，最終導致市場失靈。<br><br>
+      <strong>為什麼？</strong>因為買家不確定品質，只願意出平均價格。優質車賣家覺得不值，退出市場；劣質車賣家大量進入，市場充斥劣質品。</div>
+    </div>
+    <div class="card">
+      <span class="card-tag tag-gold">與假評的連結</span>
+      <div class="card-title">假評是數位市場的「檸檬信號」</div>
+      <div class="card-body">本研究主張：Gap D 是 Akerlof 市場失靈在數位服務市場的現代化形式。<br><br>
+      假評讓消費者在 ZMOT 階段無法辨別服務品質：<br>
+      • 誠實業者的真實好評被假評淹沒，無競爭優勢<br>
+      • 作假業者用假評佔據高星評，獲得不公平優勢<br>
+      • 最終：<span style="color:var(--red);font-weight:600;">誠實業者被假評業者系統性驅逐</span></div>
+      <div class="card-tip">✦ 這是 Gap D 治理必要性的經濟學地基，不只是服務管理問題</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ 7. ELM ══════ -->
+<div class="section" id="sec-elm">
+  <div class="section-header">
+    <div class="section-icon" style="background:#dbeafe;">🧠</div>
+    <div>
+      <div class="section-title">精細可能性模型（ELM）</div>
+      <div class="section-subtitle">Elaboration Likelihood Model ｜Petty & Cacioppo, 1986</div>
+    </div>
+  </div>
+  <div class="card-grid">
+    <div class="card">
+      <span class="card-tag tag-blue">ELM 雙路徑</span>
+      <div class="card-title">消費者處理訊息的兩條路徑</div>
+      <div class="card-body">
+        <strong>邊緣路徑（Peripheral Route）</strong>——低認知投入<br>
+        依賴表面線索（星等高低、評論數量）做快速判斷，不細看內容。假評正是利用這條路徑。<br><br>
+        <strong>中央路徑（Central Route）</strong>——高認知投入<br>
+        仔細分析訊息的論點品質和具體細節，做出深思熟慮的判斷。
+      </div>
+    </div>
+    <div class="card">
+      <span class="card-tag tag-teal">工具效用解釋</span>
+      <div class="card-title">ELM 如何解釋 MOT Calibrator 的有效性</div>
+      <div class="card-body">假評之所以有效，因為它利用<strong>邊緣路徑</strong>——大量一致高星評論讓消費者不假思索地形成過高期望。<br><br>
+      MOT Calibrator 的 SS/TS/SG 三項指標，透過提供<strong>可見的分析依據</strong>，強制消費者從邊緣路徑切換至<strong>中央路徑</strong>。<br><br>
+      路徑切換後，<strong>勸說知識（Friestad & Wright, 1994）</strong>被激活——消費者意識到這可能是假評，期望自動校準。</div>
+    </div>
+    <div class="card">
+      <span class="card-tag tag-purple">勸說知識</span>
+      <div class="card-title">Persuasion Knowledge（Friestad & Wright, 1994）</div>
+      <div class="card-body">人們在面對說服性訊息時，會自動啟動「勸說知識」來評估對方的動機和可信度。<br><br>
+      廣告（Gap 4）：消費者知道廣告是業者說的，主動折扣<br>
+      假評（Gap D）：偽裝成中立口碑，<strong>繞過</strong>勸說知識防禦<br><br>
+      MOT Calibrator 幫消費者重新激活勸說知識——讓他們意識到「這條評論可能是假的」。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ 8. 行為經濟學 ══════ -->
+<div class="section" id="sec-behav">
+  <div class="section-header">
+    <div class="section-icon" style="background:#ccfbf1;">💡</div>
+    <div>
+      <div class="section-title">行為經濟學的支撐</div>
+      <div class="section-subtitle">解釋假評為何傷害比廣告更大</div>
+    </div>
+  </div>
+  <div class="card-grid">
+    <div class="card">
+      <span class="card-tag tag-teal">可得性捷思</span>
+      <div class="card-title">Availability Heuristic（Tversky & Kahneman, 1974）</div>
+      <div class="card-body">人們在判斷某件事的可能性時，依賴腦海中「容易想到的記憶」，而不是客觀統計。<br><br>
+      假評的操作原理：大量一致的 ★★★★★ 評論，讓「這家很好吃」的記憶痕跡反覆強化，可得性極高，期望被<strong>錨定在高位</strong>。<br><br>
+      即使這些記憶全是假造的，大腦仍會自動相信。</div>
+    </div>
+    <div class="card">
+      <span class="card-tag tag-gold">展望理論</span>
+      <div class="card-title">Prospect Theory（Kahneman & Tversky, 1979）</div>
+      <div class="card-subtitle">諾貝爾經濟學獎・2002</div>
+      <div class="card-body">人們對損失的痛苦，遠大於等量獲益的喜悅。<br><br>
+      核心數字：<span style="color:var(--red);font-size:18px;font-weight:700;">失落感 = 2.5 × 驚喜感</span><br><br>
+      對假評的意涵：正向假評把期望拉高後，實際體驗的落差所造成的<strong>痛苦</strong>，比對稱性公式（SQ = P − E）呈現的傷害<strong>嚴重 2.5 倍</strong>。</div>
+      <div class="card-warning">⚠ 這就是為什麼假評的危害遠超過業者以為的程度</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ 9. DRUCKER & PORTER ══════ -->
+<div class="section" id="sec-drucker">
+  <div class="section-header">
+    <div class="section-icon" style="background:#fef3c7;">📖</div>
+    <div>
+      <div class="section-title">Drucker & Porter 的制度性論證</div>
+      <div class="section-subtitle">論證 Gap D 為何是獨立新缺口</div>
+    </div>
+  </div>
+  <div class="card-grid">
+    <div class="card">
+      <span class="card-tag tag-gold">Drucker, 1993</span>
+      <div class="card-title">資訊問責性（後資本主義社會）</div>
+      <div class="card-body">有效市場建立在「資訊可問責性」的基礎上——資訊的生產者必須對其資訊品質承擔責任。<br><br>
+      <strong>Gap 4</strong>：業者→廣告→消費者，來源清楚，法律可追溯<br>
+      <strong>Gap D</strong>：匿名第三方→假評→消費者，三方責任模糊，無制度性問責</div>
+    </div>
+    <div class="card">
+      <span class="card-tag tag-blue">Porter, 1980</span>
+      <div class="card-title">信號理論（競爭策略）</div>
+      <div class="card-body">市場中不同來源的信號，對消費者期望的影響力取決於消費者對信號來源的信任程度。<br><br>
+      廣告：已知是業者說的，消費者主動折扣<br>
+      假評：偽裝成陌生人的真實體驗，信任度遠高於廣告<br><br>
+      <strong>相同程度的期望拉升，假評的傷害遠大於廣告</strong>——這在機制上是本質不同的缺口。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ 10. MOT CALIBRATOR ══════ -->
+<div class="section" id="sec-tool">
+  <div class="section-header">
+    <div class="section-icon" style="background:#dcfce7;">🔧</div>
+    <div>
+      <div class="section-title">MOT Calibrator 工具設計</div>
+      <div class="section-subtitle">本研究開發的數位期望校準工具</div>
+    </div>
+  </div>
+  <div class="card-grid">
+    <div class="card">
+      <span class="card-tag tag-green">設計哲學</span>
+      <div class="card-title">不審判造假者，只保護消費者</div>
+      <div class="card-body">工具的介入點：ZMOT 資訊蒐集階段（購買前）<br>
+      輸出：消費者可讀的「期望校準建議」<br>
+      不是：技術性的假評概率（太難理解）<br><br>
+      設計原則：通用設計（Universal Design）<br>
+      • 點選式三色風險分級取代數字評分<br>
+      • 不同數位素養族群都能使用</div>
+    </div>
+    <div class="card">
+      <span class="card-tag tag-blue">指標一</span>
+      <div class="card-title">SS：具體性分數（Specificity Score）</div>
+      <div class="card-formula">SS = Σ(詞彙類別得分 × 加權係數) ÷ 評論總詞數 × 100</div>
+      <div class="card-body">測量評論中有多少 MOT 接觸點的具體描述。分數越高，代表評論越可能來自真實體驗者。<br><br>
+      最高加權（×1.5）：「服務員<strong>小陳</strong>主動幫我們換了<strong>靠窗座位</strong>」</div>
+      <div class="card-tip">✦ 權重最高（45%），文獻支持最強（Ott et al., 2011）</div>
+    </div>
+    <div class="card">
+      <span class="card-tag tag-gold">指標二</span>
+      <div class="card-title">TS：模板相似度（Template Similarity）</div>
+      <div class="card-formula">TS = 套語命中率 × 0.6 + n-gram Cosine 相似度 × 0.4</div>
+      <div class="card-body">偵測評論中有多少「套語（制式化語言）」。TS 越高代表越可疑。<br><br>
+      套語範例：「超好吃！大推！CP 值很高！下次還會來！」<br>
+      這類短句在大量假評中反覆出現，n-gram 相似度極高。</div>
+      <div class="card-note">注意：公式中是 (100 − TS)，反轉後加進整體評分</div>
+    </div>
+    <div class="card">
+      <span class="card-tag tag-teal">指標三</span>
+      <div class="card-title">SG：情感細粒度（Sentiment Granularity）</div>
+      <div class="card-body">偵測評論的情感是否具有「正負混合」的複雜性。<br><br>
+      真實評論通常有：「湯頭<span style="color:var(--red)">偏鹹</span>但麵條<span style="color:var(--green)">Q彈</span>」（正負並陳）<br>
+      假評通常是：全正面或全負面的極端情緒<br><br>
+      SG 越高 = 情感越複雜 = 越像真實評論</div>
+    </div>
+    <div class="card">
+      <span class="card-tag tag-red">整體公式</span>
+      <div class="card-title">Overall Authenticity Score 與三色分級</div>
+      <div class="card-formula">Overall = SS×0.45 + (100−TS)×0.30 + SG×0.25</div>
+      <div class="card-body">
+        <span style="color:var(--green);font-weight:700;">✓ Overall ≥ 65：高具體性</span>（評論可信）<br>
+        <span style="color:var(--gold);font-weight:700;">⚠ 35–64：中度疑慮</span>（觸發 LLM 深度分析）<br>
+        <span style="color:var(--red);font-weight:700;">✗ Overall < 35：情深不壽</span>（強烈建議下修期望）<br><br>
+        <strong>「情深不壽」</strong>：取自古語「情深不壽，強極則辱」，隱喻過度美化的評論必然難以為繼，所描繪的美好期望極可能是虛構的幻象。
+      </div>
+    </div>
+    <div class="card">
+      <span class="card-tag tag-purple">實測範例</span>
+      <div class="card-title">評分案例對比</div>
+      <div class="card-body">
+        <strong>真實評論：</strong><br>「服務員小陳主動幫我換了靠窗座位，等了約20分鐘，牛肉麵湯頭偏鹹但麵條Q彈，下次會避開週末」<br>
+        <div class="card-formula">SS=100, TS=0.1, SG=52 → Overall=88 ✅</div>
+        <strong>假評：</strong><br>「超好吃！CP值很高！大推！下次還會來！」<br>
+        <div class="card-formula">SS=0, TS=60, SG=9 → Overall=21 ✗</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ 11. HYPOTHESES ══════ -->
+<div class="section" id="sec-hypothesis">
+  <div class="section-header">
+    <div class="section-icon" style="background:#e0e7ff;">🔬</div>
+    <div>
+      <div class="section-title">研究假說（H1–H4）</div>
+      <div class="section-subtitle">本研究提出的 11 條正式假說</div>
+    </div>
+  </div>
+  <table class="conn-table">
+    <tr><th>假說組</th><th>編號</th><th>內容</th><th>驗證什麼</th></tr>
+    <tr><td rowspan="3"><strong>H1 組</strong><br>語意辨識</td><td>H1a</td><td>SS 與評論真實性呈顯著正相關</td><td>具體性分數有效</td></tr>
+    <tr><td>H1b</td><td>假評的 n-gram 相似度顯著高於真實評論</td><td>模板相似度有效</td></tr>
+    <tr><td>H1c</td><td>SG 與評論真實性呈顯著正相關</td><td>情感細粒度有效</td></tr>
+    <tr style="background:#fff7ed;"><td rowspan="3"><strong>H2 組</strong><br>EDP 驗證</td><td>H2a</td><td>假評環境下消費者購前期望值顯著高於真實評論組</td><td>假評確實拉高期望</td></tr>
+    <tr style="background:#fff7ed;"><td><strong>H2b ★</strong></td><td>假評組感知品質缺口顯著大於真實評論組</td><td><strong>Gap D 核心命題</strong></td></tr>
+    <tr style="background:#fff7ed;"><td>H2c</td><td>高一致性假評環境的消費者容忍區間顯著窄於真實評論組</td><td>容忍區間壓縮效應</td></tr>
+    <tr style="background:#f0fdf4;"><td rowspan="3"><strong>H3 組</strong><br>工具效果</td><td>H3a</td><td>接收期望校準提示者購前期望值顯著較低</td><td>工具可以校準期望</td></tr>
+    <tr style="background:#f0fdf4;"><td>H3b</td><td>接收提示者消費滿意度顯著較高</td><td>工具提升滿意度</td></tr>
+    <tr style="background:#f0fdf4;"><td>H3c</td><td>感知有用性（PU）正向預測使用意圖（ITU）</td><td>TAM 模型成立</td></tr>
+    <tr style="background:#fef2f2;"><td><strong>H4 組</strong><br>可偽證條件</td><td>H4</td><td>若 H2b 在三個以上獨立實驗中均未達顯著，Gap D 機制需根本修正</td><td>Popper 科學精神</td></tr>
+  </table>
+</div>
+
+<!-- ══════ 12. METHODS ══════ -->
+<div class="section" id="sec-method">
+  <div class="section-header">
+    <div class="section-icon" style="background:#fce7f3;">📊</div>
+    <div>
+      <div class="section-title">研究方法設計</div>
+      <div class="section-subtitle">混合方法設計・三軌並行</div>
+    </div>
+  </div>
+  <div class="card-grid">
+    <div class="card">
+      <span class="card-tag tag-blue">方法一</span>
+      <div class="card-title">語料庫分析（Corpus Analysis）</div>
+      <div class="card-body">蒐集 n ≥ 3,000 則台灣評論平台中文評論<br><br>
+      <strong>三軌標注設計：</strong><br>
+      • 外部客觀證據語料（15%）：有確鑿假評外部證據的評論<br>
+      • 行為特徵輔助標注（35%）：根據帳號行為模式輔助判斷<br>
+      • 語言特徵人工標注（50%）：純語言學分析<br><br>
+      目標：Cohen's Kappa ≥ 0.70，AUC ≥ 0.80</div>
+    </div>
+    <div class="card">
+      <span class="card-tag tag-teal">方法二</span>
+      <div class="card-title">受控情境實驗（五組設計）</div>
+      <div class="card-body">
+        <strong>控制組（C）</strong>：真實評論，無工具介入<br>
+        <strong>實驗組一（E1）</strong>：正向假評，無介入 → H2a/H2b/H2c<br>
+        <strong>實驗組二（E2）</strong>：正向假評＋校準提示 → H3a/H3b<br>
+        <strong>實驗組三（E3）</strong>：負向假評，無介入 → Gap D 負向驗證<br>
+        <strong>基準組（B）【新增】</strong>：無評論，僅商家基本資訊 → E_authentic 測量<br><br>
+        n ≥ 400，各組 n = 80
+      </div>
+      <div class="card-note">基準組設計是避免「循環論證」的關鍵：E_authentic 不能依賴工具篩選結果來測量</div>
+    </div>
+    <div class="card">
+      <span class="card-tag tag-gold">方法三</span>
+      <div class="card-title">問卷調查（TAM 量表）</div>
+      <div class="card-subtitle">Technology Acceptance Model, Davis, 1989</div>
+      <div class="card-body">n ≥ 300，以 Qualtrics 平台施測<br><br>
+      <strong>TAM 模型兩大構念：</strong><br>
+      PU（感知有用性, Perceived Usefulness）：使用工具能提升決策品質<br>
+      ITU（使用意圖, Intention to Use）：願意實際使用工具<br><br>
+      H3c：PU → ITU（SEM 分析）<br><br>
+      <strong>新增：面子意識量表</strong>（Hofstede, 1980）<br>
+      測量台灣文化（不輕易給負評）對工具使用意願的調節效果</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ 13. FUTURE ══════ -->
+<div class="section" id="sec-future">
+  <div class="section-header">
+    <div class="section-icon" style="background:#dbeafe;">🚀</div>
+    <div>
+      <div class="section-title">三部曲延伸架構</div>
+      <div class="section-subtitle">從消費者保護到生態重建</div>
+    </div>
+  </div>
+  <div class="card-grid">
+    <div class="card">
+      <span class="card-tag tag-blue">第一部（本研究）</span>
+      <div class="card-title">MOT Calibrator：消費者保護工具</div>
+      <div class="card-body">定位：事後補救型<br>讓消費者在 ZMOT 階段校準被假評污染的期望，降低期望落差與消費失落。</div>
+    </div>
+    <div class="card">
+      <span class="card-tag tag-teal">第二部（MARC）</span>
+      <div class="card-title">MARC 認證制度：源頭治理</div>
+      <div class="card-subtitle">MOT Authentic Review Certification</div>
+      <div class="card-body">誠實業者主動申請認證，提交評論資料授權 Gap D 篩選，獲得「真實星等認證標章」。<br><br>
+      信號邏輯：敢申請認證 = 不怕 Gap D 檢驗 = 誠信業者的市場信號<br>
+      最終形成「誠信者受益、造假者迴避」的市場篩選效應。</div>
+    </div>
+    <div class="card">
+      <span class="card-tag tag-gold">第三部（MACS）</span>
+      <div class="card-title">MACS 評分系統：生態重建</div>
+      <div class="card-subtitle">MOT Authentic Consumer Scoring</div>
+      <div class="card-body">建立獨立於 Google Maps 之外的真實口碑生態。<br><br>
+      以點選式 MOT 語意題組取代主觀評星，每次隨機題組，讓消費者成為「數位時代的米其林神秘客」。<br><br>
+      內建反 AI 洗分機制：每次題組不同，AI 難以系統性刷分。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ GLOSSARY ══════ -->
+<div class="section" id="sec-glossary">
+  <div class="section-header">
+    <div class="section-icon" style="background:#f1f5f9;">📚</div>
+    <div>
+      <div class="section-title">專業詞彙完整對照表</div>
+      <div class="section-subtitle">論文中所有核心術語的定義與文獻來源</div>
+    </div>
+  </div>
+  <div class="glossary-grid">
+    <div class="glossary-item">
+      <div class="glossary-term">ZMOT</div>
+      <div class="glossary-cn">第零關鍵時刻</div>
+      <div class="glossary-def">消費者在進入商店前，先在網路搜尋評論的決策時刻</div>
+      <div class="glossary-paper">📖 Google / Lecinski, 2011</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">PZB Model</div>
+      <div class="glossary-cn">服務品質缺口模型</div>
+      <div class="glossary-def">SQ = P − E，以顧客主觀落差定義服務品質，含五大缺口</div>
+      <div class="glossary-paper">📖 Parasuraman, Zeithaml & Berry, 1985</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">RATER</div>
+      <div class="glossary-cn">服務品質五維度</div>
+      <div class="glossary-def">Reliability, Assurance, Tangibles, Empathy, Responsiveness</div>
+      <div class="glossary-paper">📖 PZB, 1988 SERVQUAL</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">Gap D</div>
+      <div class="glossary-cn">數位資訊污染缺口</div>
+      <div class="glossary-def">Gap D = E_polluted − E_authentic，本研究提出的新缺口</div>
+      <div class="glossary-paper">📖 黃國津, 2026（本研究）</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">EDP</div>
+      <div class="glossary-cn">期望扭曲悖論</div>
+      <div class="glossary-def">假評以雙向相反方向扭曲消費者期望的命題化現象</div>
+      <div class="glossary-paper">📖 黃國津, 2026（本研究）</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">MOT</div>
+      <div class="glossary-cn">真實瞬間</div>
+      <div class="glossary-def">顧客判斷服務品質的每一個具體服務接觸瞬間</div>
+      <div class="glossary-paper">📖 Carlzon, 1987</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">ELM</div>
+      <div class="glossary-cn">精細可能性模型</div>
+      <div class="glossary-def">消費者處理說服訊息的邊緣路徑（快捷）vs 中央路徑（深思）</div>
+      <div class="glossary-paper">📖 Petty & Cacioppo, 1986</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">Market for Lemons</div>
+      <div class="glossary-cn">市場檸檬理論</div>
+      <div class="glossary-def">資訊不對稱導致劣質品驅逐優質品的市場失靈機制</div>
+      <div class="glossary-paper">📖 Akerlof, 1970（諾貝爾獎）</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">Zone of Tolerance</div>
+      <div class="glossary-cn">容忍區間</div>
+      <div class="glossary-def">消費者能接受的服務品質範圍，介於理想與充分服務之間</div>
+      <div class="glossary-paper">📖 Zeithaml et al., 1993</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">TAM</div>
+      <div class="glossary-cn">科技接受模型</div>
+      <div class="glossary-def">PU（感知有用性）→ ITU（使用意圖）的預測模型</div>
+      <div class="glossary-paper">📖 Davis, 1989</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">Availability Heuristic</div>
+      <div class="glossary-cn">可得性捷思</div>
+      <div class="glossary-def">人們依賴腦海中「容易想到的記憶」判斷可能性</div>
+      <div class="glossary-paper">📖 Tversky & Kahneman, 1974</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">Prospect Theory</div>
+      <div class="glossary-cn">展望理論</div>
+      <div class="glossary-def">失落感 = 2.5 × 驚喜感，人對損失的敏感度遠高於獲益</div>
+      <div class="glossary-paper">📖 Kahneman & Tversky, 1979（諾貝爾獎）</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">Persuasion Knowledge</div>
+      <div class="glossary-cn">勸說知識</div>
+      <div class="glossary-def">消費者面對說服性訊息時自動評估動機和可信度的知識</div>
+      <div class="glossary-paper">📖 Friestad & Wright, 1994</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">SS / TS / SG</div>
+      <div class="glossary-cn">三項評分指標</div>
+      <div class="glossary-def">具體性分數(45%) / 模板相似度(30%) / 情感細粒度(25%)</div>
+      <div class="glossary-paper">📖 MOT Calibrator 設計</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">MARC / MACS</div>
+      <div class="glossary-cn">認證制度／評分系統</div>
+      <div class="glossary-def">三部曲第二部（業者認證）與第三部（消費者評分生態）</div>
+      <div class="glossary-paper">📖 黃國津, 2026（本研究延伸）</div>
+    </div>
+    <div class="glossary-item">
+      <div class="glossary-term">FRD</div>
+      <div class="glossary-cn">假評偵測研究</div>
+      <div class="glossary-def">Fake Review Detection，現有技術導向學術研究的統稱</div>
+      <div class="glossary-paper">📖 Mohawesh et al., 2021 綜述</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ QUIZ MC ══════ -->
+<div class="quiz-section" id="sec-quiz-mc">
+  <div class="quiz-intro">
+    <h2>🎯 選擇題測驗</h2>
+    <p>測試你對論文核心概念的掌握程度。選擇答案後點擊「確認答案」查看解析。</p>
+    <div class="quiz-stats">
+      <div class="quiz-stat"><div class="num" id="mc-score">0</div><div class="lbl">答對題數</div></div>
+      <div class="quiz-stat"><div class="num">12</div><div class="lbl">總題數</div></div>
+    </div>
+  </div>
+
+  <!-- Q1 -->
+  <div class="quiz-card" data-answer="b">
+    <div class="q-num">選擇題 01 ／ Gap D 基礎</div>
+    <div class="q-text">Gap D 的正式公式是？</div>
+    <ul class="quiz-options">
+      <li><label><input type="radio" name="q1" value="a"> a. Gap D = P − E</label></li>
+      <li><label><input type="radio" name="q1" value="b"> b. Gap D = E_polluted − E_authentic</label></li>
+      <li><label><input type="radio" name="q1" value="c"> c. Gap D = E_authentic − P</label></li>
+      <li><label><input type="radio" name="q1" value="d"> d. Gap D = P − E_polluted</label></li>
+    </ul>
+    <button class="btn-check" onclick="checkMC(this)">確認答案</button>
+    <div class="quiz-feedback">
+      <strong>✅ 正確答案：b</strong><br>
+      Gap D = E_polluted（被假評污染後的期望值）− E_authentic（真實基準期望值）。Gap D > 0 代表上行扭曲（正向假評），Gap D < 0 代表下行扭曲（負向假評）。
+    </div>
+  </div>
+
+  <!-- Q2 -->
+  <div class="quiz-card" data-answer="c">
+    <div class="q-num">選擇題 02 ／ PZB 模型</div>
+    <div class="q-text">PZB 服務品質模型的核心公式是？</div>
+    <ul class="quiz-options">
+      <li><label><input type="radio" name="q2" value="a"> a. SQ = E − P</label></li>
+      <li><label><input type="radio" name="q2" value="b"> b. SQ = Gap D + P</label></li>
+      <li><label><input type="radio" name="q2" value="c"> c. SQ = P − E</label></li>
+      <li><label><input type="radio" name="q2" value="d"> d. SQ = E × P</label></li>
+    </ul>
+    <button class="btn-check" onclick="checkMC(this)">確認答案</button>
+    <div class="quiz-feedback">
+      <strong>✅ 正確答案：c</strong><br>
+      SQ（服務品質）= P（感知績效）− E（期望值）。關鍵在於：品質是顧客的「主觀落差感受」，不是業者客觀交付的水準。
+    </div>
+  </div>
+
+  <!-- Q3 -->
+  <div class="quiz-card" data-answer="a">
+    <div class="q-num">選擇題 03 ／ 展望理論</div>
+    <div class="q-text">根據 Kahneman & Tversky 的展望理論，期望落差的痛苦是等量驚喜的幾倍？</div>
+    <ul class="quiz-options">
+      <li><label><input type="radio" name="q3" value="a"> a. 2.5 倍</label></li>
+      <li><label><input type="radio" name="q3" value="b"> b. 2 倍</label></li>
+      <li><label><input type="radio" name="q3" value="c"> c. 3 倍</label></li>
+      <li><label><input type="radio" name="q3" value="d"> d. 5 倍</label></li>
+    </ul>
+    <button class="btn-check" onclick="checkMC(this)">確認答案</button>
+    <div class="quiz-feedback">
+      <strong>✅ 正確答案：a（2.5 倍）</strong><br>
+      展望理論的核心發現：人們對損失的感受遠強於等量獲益的喜悅。對假評的意涵：正向假評拉高期望後造成的失落感，比對稱公式呈現的傷害嚴重 2.5 倍。
+    </div>
+  </div>
+
+  <!-- Q4 -->
+  <div class="quiz-card" data-answer="b">
+    <div class="q-num">選擇題 04 ／ MOT Calibrator</div>
+    <div class="q-text">MOT Calibrator 中，SS 指標的加權比例是？</div>
+    <ul class="quiz-options">
+      <li><label><input type="radio" name="q4" value="a"> a. 30%</label></li>
+      <li><label><input type="radio" name="q4" value="b"> b. 45%</label></li>
+      <li><label><input type="radio" name="q4" value="c"> c. 25%</label></li>
+      <li><label><input type="radio" name="q4" value="d"> d. 50%</label></li>
+    </ul>
+    <button class="btn-check" onclick="checkMC(this)">確認答案</button>
+    <div class="quiz-feedback">
+      <strong>✅ 正確答案：b（45%）</strong><br>
+      整體評分 = SS×0.45 + (100−TS)×0.30 + SG×0.25。SS 獲最高權重，因為語意具體性是假評偵測最強預測因子（Ott et al., 2011；Anderson & Simester, 2014）。
+    </div>
+  </div>
+
+  <!-- Q5 -->
+  <div class="quiz-card" data-answer="c">
+    <div class="q-num">選擇題 05 ／ ELM 理論</div>
+    <div class="q-text">ELM 精細可能性模型中，假評主要利用哪條路徑影響消費者？</div>
+    <ul class="quiz-options">
+      <li><label><input type="radio" name="q5" value="a"> a. 中央路徑（深思熟慮）</label></li>
+      <li><label><input type="radio" name="q5" value="b"> b. 雙路徑同時啟動</label></li>
+      <li><label><input type="radio" name="q5" value="c"> c. 邊緣路徑（依賴表面線索）</label></li>
+      <li><label><input type="radio" name="q5" value="d"> d. 理性路徑（計算期望值）</label></li>
+    </ul>
+    <button class="btn-check" onclick="checkMC(this)">確認答案</button>
+    <div class="quiz-feedback">
+      <strong>✅ 正確答案：c</strong><br>
+      假評利用邊緣路徑——大量一致的高星評論構成強烈表面線索，消費者在無意識中形成過高期望，不需要仔細閱讀內容。MOT Calibrator 的功能是強制消費者切換到中央路徑。
+    </div>
+  </div>
+
+  <!-- Q6 -->
+  <div class="quiz-card" data-answer="d">
+    <div class="q-num">選擇題 06 ／ Akerlof</div>
+    <div class="q-text">Akerlof 的「市場檸檬理論」在本研究中的意義是？</div>
+    <ul class="quiz-options">
+      <li><label><input type="radio" name="q6" value="a"> a. 解釋消費者偏好酸味食物</label></li>
+      <li><label><input type="radio" name="q6" value="b"> b. 說明廣告對品牌的正面效應</label></li>
+      <li><label><input type="radio" name="q6" value="c"> c. 解釋為什麼好商品賣得比壞商品貴</label></li>
+      <li><label><input type="radio" name="q6" value="d"> d. 假評造成誠實業者被假評業者系統性驅逐的市場失靈</label></li>
+    </ul>
+    <button class="btn-check" onclick="checkMC(this)">確認答案</button>
+    <div class="quiz-feedback">
+      <strong>✅ 正確答案：d</strong><br>
+      Akerlof 的核心：資訊不對稱導致劣質品驅逐優質品。本研究主張假評是這個機制在數位服務市場的現代化形式——假評讓消費者無法辨別服務品質，誠實業者被作假業者系統性驅逐。
+    </div>
+  </div>
+
+  <!-- Q7 -->
+  <div class="quiz-card" data-answer="b">
+    <div class="q-num">選擇題 07 ／ 三色分級</div>
+    <div class="q-text">MOT Calibrator 的「情深不壽」標籤代表 Overall 分數是？</div>
+    <ul class="quiz-options">
+      <li><label><input type="radio" name="q7" value="a"> a. ≥ 65 分</label></li>
+      <li><label><input type="radio" name="q7" value="b"> b. < 35 分</label></li>
+      <li><label><input type="radio" name="q7" value="c"> c. 35–64 分</label></li>
+      <li><label><input type="radio" name="q7" value="d"> d. ≥ 80 分</label></li>
+    </ul>
+    <button class="btn-check" onclick="checkMC(this)">確認答案</button>
+    <div class="quiz-feedback">
+      <strong>✅ 正確答案：b（< 35 分）</strong><br>
+      三色分級：✓ ≥65 高具體性（可信）/ ⚠ 35–64 中度疑慮 / ✗ <35 情深不壽（強烈建議下修期望）。<br>「情深不壽」取自古語「情深不壽，強極則辱」，隱喻過度美化的評論必然難以為繼。
+    </div>
+  </div>
+
+  <!-- Q8 -->
+  <div class="quiz-card" data-answer="a">
+    <div class="q-num">選擇題 08 ／ 研究方法</div>
+    <div class="q-text">本研究的五組實驗設計中，「基準組（B）」的主要功能是？</div>
+    <ul class="quiz-options">
+      <li><label><input type="radio" name="q8" value="a"> a. 測量 E_authentic（獨立測量真實基準期望值），避免循環論證</label></li>
+      <li><label><input type="radio" name="q8" value="b"> b. 驗證工具的感知有用性</label></li>
+      <li><label><input type="radio" name="q8" value="c"> c. 測試負向假評的效應</label></li>
+      <li><label><input type="radio" name="q8" value="d"> d. 作為假評對照的統計基準</label></li>
+    </ul>
+    <button class="btn-check" onclick="checkMC(this)">確認答案</button>
+    <div class="quiz-feedback">
+      <strong>✅ 正確答案：a</strong><br>
+      基準組（B）：受試者僅憑商家基本資訊（類型、地址、價位）形成期望，不接觸任何評論。這個設計讓 E_authentic 的測量獨立於工具之外，避免「用工具篩選結果來測量工具前提」的循環論證問題。
+    </div>
+  </div>
+
+  <!-- Q9 -->
+  <div class="quiz-card" data-answer="c">
+    <div class="q-num">選擇題 09 ／ Gap D vs Gap 4</div>
+    <div class="q-text">下列哪項說法最能說明 Gap D 不是 Gap 4 的子類型？</div>
+    <ul class="quiz-options">
+      <li><label><input type="radio" name="q9" value="a"> a. Gap D 的規模比 Gap 4 更大</label></li>
+      <li><label><input type="radio" name="q9" value="b"> b. Gap D 只發生在網路上，Gap 4 只發生在電視廣告</label></li>
+      <li><label><input type="radio" name="q9" value="c"> c. Gap D 的資訊主體是匿名第三方，無法律問責；消費者無勸說知識防禦，且造成系統性市場失靈</label></li>
+      <li><label><input type="radio" name="q9" value="d"> d. Gap D 發生在購買後，Gap 4 發生在購買前</label></li>
+    </ul>
+    <button class="btn-check" onclick="checkMC(this)">確認答案</button>
+    <div class="quiz-feedback">
+      <strong>✅ 正確答案：c</strong><br>
+      三個維度的本質差異：① Drucker 問責性（Gap D 無問責機制）② Porter 信號可信度（Gap D 繞過勸說知識防禦）③ Akerlof 市場失靈（Gap D 造成誠實業者被驅逐）。三者共同確立 Gap D 是獨立的新缺口。
+    </div>
+  </div>
+
+  <!-- Q10 -->
+  <div class="quiz-card" data-answer="b">
+    <div class="q-num">選擇題 10 ／ MOT 語意</div>
+    <div class="q-text">MOT 接觸點詞彙中，加權係數最高（×1.5）的是哪一類？</div>
+    <ul class="quiz-options">
+      <li><label><input type="radio" name="q10" value="a"> a. 感官描述詞（味道、觸感）</label></li>
+      <li><label><input type="radio" name="q10" value="b"> b. 人員互動詞（服務員姓名、主動行為）</label></li>
+      <li><label><input type="radio" name="q10" value="c"> c. 時空細節詞（等待時間、位置）</label></li>
+      <li><label><input type="radio" name="q10" value="d"> d. 產品具體詞（品項名稱）</label></li>
+    </ul>
+    <button class="btn-check" onclick="checkMC(this)">確認答案</button>
+    <div class="quiz-feedback">
+      <strong>✅ 正確答案：b（人員互動詞 ×1.5）</strong><br>
+      加權順序：人員互動（1.5）> 感官描述（1.3）> 時空細節（1.2）> 產品具體（1.0）。另外，負面情節特殊加成 ×2.0，因為假評幾乎不會主動寫負面細節。
+    </div>
+  </div>
+
+  <!-- Q11 -->
+  <div class="quiz-card" data-answer="d">
+    <div class="q-num">選擇題 11 ／ 容忍區間</div>
+    <div class="q-text">H2c 假說（容忍區間壓縮效應）的意涵是？</div>
+    <ul class="quiz-options">
+      <li><label><input type="radio" name="q11" value="a"> a. 假評讓消費者對任何服務都滿意</label></li>
+      <li><label><input type="radio" name="q11" value="b"> b. 假評讓消費者對服務品質完全無感</label></li>
+      <li><label><input type="radio" name="q11" value="c"> c. 假評讓消費者的容忍區間變寬</label></li>
+      <li><label><input type="radio" name="q11" value="d"> d. 大量一致假評讓消費者對品質要求更嚴苛，容忍區間縮窄，失落感倍增</label></li>
+    </ul>
+    <button class="btn-check" onclick="checkMC(this)">確認答案</button>
+    <div class="quiz-feedback">
+      <strong>✅ 正確答案：d</strong><br>
+      假評的雙重傷害：① 拉高期望均值（E↑）② 因資訊一致性提高，消費者不確定性降低，容忍區間收窄。即使服務品質完全相同，消費者在假評環境下的失落感更強。
+    </div>
+  </div>
+
+  <!-- Q12 -->
+  <div class="quiz-card" data-answer="a">
+    <div class="q-num">選擇題 12 ／ TAM 模型</div>
+    <div class="q-text">TAM 模型（Davis, 1989）中，H3c 假說驗證的路徑是？</div>
+    <ul class="quiz-options">
+      <li><label><input type="radio" name="q12" value="a"> a. PU（感知有用性）→ ITU（使用意圖）</label></li>
+      <li><label><input type="radio" name="q12" value="b"> b. ITU（使用意圖）→ PU（感知有用性）</label></li>
+      <li><label><input type="radio" name="q12" value="c"> c. PEOU（感知易用性）→ 消費滿意度</label></li>
+      <li><label><input type="radio" name="q12" value="d"> d. SS 分數 → 使用意圖</label></li>
+    </ul>
+    <button class="btn-check" onclick="checkMC(this)">確認答案</button>
+    <div class="quiz-feedback">
+      <strong>✅ 正確答案：a</strong><br>
+      TAM 的核心路徑：感知有用性（PU, Perceived Usefulness）正向預測使用意圖（ITU, Intention to Use）。H3c 用結構方程模型（SEM）驗證此路徑對 MOT Calibrator 是否同樣成立。
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════ QUIZ ESSAY ══════ -->
+<div class="quiz-section" id="sec-quiz-essay">
+  <div class="quiz-intro">
+    <h2>✍️ 申論題測驗</h2>
+    <p>這些是上台發表時最可能被問到的問題。先自己想想，再按「查看參考答案」。</p>
+  </div>
+
+  <!-- E1 -->
+  <div class="essay-card">
+    <div class="q-num">申論題 01 ／ 核心論點</div>
+    <div class="q-text">請說明 Gap D 與 PZB 原始 Gap 4 的本質差異，並說明為什麼 Gap D 不是 Gap 4 的子類型。</div>
+    <button class="btn-reveal" onclick="toggleEssay(this)">查看參考答案</button>
+    <div class="essay-answer">
+      <h4>📝 參考答案要點</h4>
+      <ul>
+        <li><strong>差異一（Drucker, 1993 資訊問責性）</strong>：Gap 4 的資訊主體是服務業者本身，對廣告不實負有法律責任，消費者可追溯來源；Gap D 的資訊主體是匿名第三方，業者、撰文者、平台三方責任模糊，無有效問責機制。</li>
+        <li><strong>差異二（Porter, 1980 信號可信度）</strong>：廣告是已知偏頗的信號，消費者有「勸說知識」會主動折扣業者承諾；假評偽裝成中立的陌生人體驗，繞過勸說知識防禦，信任度遠高於廣告，期望扭曲效應更強。</li>
+        <li><strong>差異三（Akerlof, 1970 市場失靈）</strong>：Gap 4 的廣告來源可辨識，消費者學習後會折扣，不造成系統性市場失靈；Gap D 的假評偽裝成中立口碑，造成誠實業者被假評業者系統性驅逐，是真正的市場失靈。</li>
+        <li><strong>結論</strong>：三個維度的本質差異共同確立 Gap D 是獨立的理論命題，現有 Gap 4 的治理框架（廣告法規）無法解決 Gap D 的問題。</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- E2 -->
+  <div class="essay-card">
+    <div class="q-num">申論題 02 ／ 核心命題</div>
+    <div class="q-text">請解釋「期望扭曲悖論（EDP）」的雙向機制，並用數值範例說明。</div>
+    <button class="btn-reveal" onclick="toggleEssay(this)">查看參考答案</button>
+    <div class="essay-answer">
+      <h4>📝 參考答案要點</h4>
+      <ul>
+        <li><strong>定義</strong>：EDP 是本研究正式命名的現象——假評以兩種截然相反的方向扭曲消費者購前期望，進而對 PZB Gap 5 產生對稱性影響。</li>
+        <li><strong>上行扭曲（Gap D > 0）</strong>：正向假評人為拉高期望。範例：P=3分，E_authentic=3分，假評後 E_polluted=7分 → Gap D=+4，Gap 5=+4，消費者嚴重失落。</li>
+        <li><strong>下行扭曲（Gap D < 0）</strong>：負向假評人為壓低期望。範例：競業差評後 E_polluted=1分 → Gap D=−2，Gap 5=−2，消費者意外滿意，但品牌已流失大量潛在顧客。</li>
+        <li><strong>「悖論」之處</strong>：同樣是假評，製造了完全相反的消費體驗。但兩者都對市場造成傷害——上行扭曲傷害消費者，下行扭曲傷害誠實業者。</li>
+        <li><strong>修正公式</strong>：Gap 5（修正版）= (E_authentic + Gap D) − P</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- E3 -->
+  <div class="essay-card">
+    <div class="q-num">申論題 03 ／ 工具設計</div>
+    <div class="q-text">請說明 MOT Calibrator 的三項評分指標（SS、TS、SG）各自的理論依據、計算邏輯與加權比例。</div>
+    <button class="btn-reveal" onclick="toggleEssay(this)">查看參考答案</button>
+    <div class="essay-answer">
+      <h4>📝 參考答案要點</h4>
+      <ul>
+        <li><strong>整體公式</strong>：Overall = SS×0.45 + (100−TS)×0.30 + SG×0.25</li>
+        <li><strong>SS（具體性分數）</strong>：理論依據：MOT 理論（真實體驗者必然有接觸點細節描述）。計算：各詞彙類別得分加權求和除以總詞數乘以100。權重45%，因語意具體性是最強預測因子（Ott et al.）。</li>
+        <li><strong>TS（模板相似度）</strong>：理論依據：假評有高度的套語相似性（Jindal & Liu, 2008）。計算：套語命中率×0.6 + n-gram Cosine相似度×0.4。越高越可疑，故用(100−TS)反轉加入。權重30%。</li>
+        <li><strong>SG（情感細粒度）</strong>：理論依據：真實評論有正負混合的情感複雜性；假評通常極端單向。計算：偵測正負情感混合程度。權重25%，為補充性指標。</li>
+        <li><strong>可偽證承諾</strong>：若迴歸分析顯示SS係數β<0.20，主張需修正。</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- E4 -->
+  <div class="essay-card">
+    <div class="q-num">申論題 04 ／ 行為經濟學</div>
+    <div class="q-text">請說明為什麼假評對消費者的傷害，比廣告誇大的傷害更嚴重？請引用相關理論。</div>
+    <button class="btn-reveal" onclick="toggleEssay(this)">查看參考答案</button>
+    <div class="essay-answer">
+      <h4>📝 參考答案要點</h4>
+      <ul>
+        <li><strong>從 ELM 解釋</strong>：廣告靠邊緣路徑影響消費者，但消費者有勸說知識會主動折扣（Friestad & Wright, 1994）；假評偽裝成中立口碑，繞過勸說知識，直接進入消費者的信任框架，期望被大幅拉高。</li>
+        <li><strong>從可得性捷思解釋</strong>（Tversky & Kahneman, 1974）：大量一致的假好評，讓「這家很好」的記憶痕跡反覆強化，可得性極高，消費者形成過高期望而不自知。</li>
+        <li><strong>從展望理論解釋</strong>（Kahneman & Tversky, 1979）：期望被拉高後，實際體驗的失落感 = 2.5 × 等量驚喜感，所以傷害遠比表面的「期望落差」嚴重。</li>
+        <li><strong>從 Akerlof 解釋</strong>：廣告來源可辨識，市場不會失靈；假評造成誠實業者被驅逐，是市場制度層面的根本傷害。</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- E5 -->
+  <div class="essay-card">
+    <div class="q-num">申論題 05 ／ 理論貢獻</div>
+    <div class="q-text">請說明本研究的五項主要理論貢獻。</div>
+    <button class="btn-reveal" onclick="toggleEssay(this)">查看參考答案</button>
+    <div class="essay-answer">
+      <h4>📝 參考答案要點</h4>
+      <ul>
+        <li><strong>①</strong> 首次正式提出「Gap D」，以 Akerlof 為地基、Drucker 問責性、Porter 信號可信度三個維度，論證其獨立於 Gap 4 的必要性，確立其作為 PZB 數位時代延伸的學術地位。</li>
+        <li><strong>②</strong> 首次正式命題化「期望扭曲悖論（EDP）」，涵蓋上行與下行兩個方向，並結合容忍區間理論（Zeithaml, 1993）提出 H2c 壓縮效應假說。</li>
+        <li><strong>③</strong> 首次將 MOT 真實瞬間理論應用於評論語意分析，並以 ELM（Petty & Cacioppo, 1986）解釋工具校準的心理機制。</li>
+        <li><strong>④</strong> 提出兼顧可偽證性（Popper, 1959）的理論設計，明確宣告 Gap D 的可偽證條件，確立科學地位。</li>
+        <li><strong>⑤</strong> 將假評研究框架從「識別造假者」拓展至「保護消費者期望品質」的服務管理視角，補充現有 NLP 技術研究的理論詮釋框架。</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- E6 -->
+  <div class="essay-card">
+    <div class="q-num">申論題 06 ／ 研究限制</div>
+    <div class="q-text">本研究有哪五項主要限制？請各說明其影響。</div>
+    <button class="btn-reveal" onclick="toggleEssay(this)">查看參考答案</button>
+    <div class="essay-answer">
+      <h4>📝 參考答案要點</h4>
+      <ul>
+        <li><strong>① 語料庫稀缺</strong>：中文假評黃金標準語料庫稀缺，外部客觀標注依據難以取得，影響 AUC 目標的可達性。</li>
+        <li><strong>② AI 假評挑戰</strong>：LLM 生成假評在語意具體性上已能高度模擬真實評論，SS 指標在此情境下效度有限，需第四層 LLM 推理補充。</li>
+        <li><strong>③ 加權公式</strong>：SS 0.45 / TS 0.30 / SG 0.25 是理論導向的初始試驗值，未經語料庫迴歸校準，實際最優權重可能不同。</li>
+        <li><strong>④ 文化因素</strong>：台灣高情境文化（面子意識）可能影響消費者給真實評分的意願，調節效果需文化量表驗證。</li>
+        <li><strong>⑤ 外部效度</strong>：受控實驗室情境與真實消費行為情境仍有差距，需田野實驗補充確認外部效度。</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+</main>
+</div>
+
+<script>
+// ── 選擇題邏輯 ──
+function checkMC(btn) {
+  const card = btn.closest('.quiz-card');
+  const correctAnswer = card.dataset.answer;
+  const name = card.querySelector('input[type="radio"]').name;
+  const selected = card.querySelector(`input[name="${name}"]:checked`);
+  const feedback = card.querySelector('.quiz-feedback');
+
+  if (!selected) {
+    feedback.innerHTML = '⚠️ 請先選擇一個答案';
+    feedback.className = 'quiz-feedback show wrong';
+    return;
+  }
+
+  const labels = card.querySelectorAll('.quiz-options label');
+  labels.forEach(label => {
+    const input = label.querySelector('input');
+    if (input.value === correctAnswer) {
+      label.classList.add('correct');
+    } else if (input.value === selected.value && selected.value !== correctAnswer) {
+      label.classList.add('wrong');
+    }
+  });
+
+  const isCorrect = selected.value === correctAnswer;
+  feedback.className = `quiz-feedback show ${isCorrect ? 'correct' : 'wrong'}`;
+  if (!isCorrect) {
+    feedback.innerHTML = `❌ 答錯了！<br>` + feedback.innerHTML;
+  }
+
+  // disable
+  card.querySelectorAll('input[type="radio"]').forEach(i => i.disabled = true);
+  btn.disabled = true;
+  btn.textContent = isCorrect ? '✅ 答對了！' : '❌ 答錯了';
+  btn.style.background = isCorrect ? '#16a34a' : '#dc2626';
+
+  // update score
+  if (isCorrect) {
+    const scoreEl = document.getElementById('mc-score');
+    scoreEl.textContent = parseInt(scoreEl.textContent) + 1;
+  }
+}
+
+// ── 申論題邏輯 ──
+function toggleEssay(btn) {
+  const card = btn.closest('.essay-card');
+  const answer = card.querySelector('.essay-answer');
+  const showing = answer.classList.contains('show');
+  answer.classList.toggle('show');
+  btn.textContent = showing ? '查看參考答案' : '收起答案';
+}
+
+// ── 側邊欄高亮 ──
+const sections = document.querySelectorAll('.section, .quiz-section');
+const sidebarLinks = document.querySelectorAll('.sidebar a');
+
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 100) current = s.id;
+  });
+  sidebarLinks.forEach(a => {
+    a.classList.remove('active');
+    if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+  });
+});
+</script>
+
+</body>
+</html>
